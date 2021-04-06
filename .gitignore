@@ -3,5 +3,9 @@
 
 # ide files
 /.idea/
+
 # local settings
 /reservation_project/local_settings.py
+
+# migration files
+*/migrations/
