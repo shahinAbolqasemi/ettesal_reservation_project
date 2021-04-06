@@ -1,0 +1,7 @@
+# virtual env folder
+/venv/
+
+# ide files
+/.idea/
+# local settings
+/reservation_project/local_settings.py
