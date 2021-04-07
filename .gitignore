@@ -9,3 +9,6 @@
 
 # migration files
 */migrations/
+
+# pycharm
+*/__pycache__/
