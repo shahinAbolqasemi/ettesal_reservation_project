@@ -8,7 +8,7 @@
 /reservation_project/local_settings.py
 
 # migration files
-*/migrations/
+**/migrations/
 
 # pycharm
-*/__pycache__/
+**/__pycache__/
