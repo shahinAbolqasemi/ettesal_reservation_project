@@ -75,9 +75,19 @@ class BaseModel(models.Model):
     """
     This Model is AbstractModel that base model for other model
     """
+
     class Meta:
         abstract = True
 
     created_time = models.DateTimeField(verbose_name=_('created time'), auto_now_add=True)
     modified_time = models.DateTimeField(verbose_name=_('modified time'), auto_now=True)
-    related_creator = models.ForeignKey(verbose_name=_('creator'), to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    related_creator = models.ForeignKey(verbose_name=_('creator'), to=settings.AUTH_USER_MODEL,
+                                        on_delete=models.CASCADE)
+
+
+class Participant(BaseModel):
+    title = models.CharField(verbose_name=_('title'), max_length=200, unique=True)
+
+    class Meta:
+        verbose_name = _('participant')
+        verbose_name_plural = _('participant')

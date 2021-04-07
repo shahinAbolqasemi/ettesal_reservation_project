@@ -2,11 +2,14 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 
+from reservation_app.models import Participant
+
 
 class UserPublicSerializer(serializers.ModelSerializer):
     """
     This serializer is a public serializer
     """
+
     class Meta:
         model = get_user_model()
         fields = [
@@ -33,3 +36,7 @@ class UserAdminSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
 
 
+class ParticipantAdminSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Participant
+        fields = '__all__'
