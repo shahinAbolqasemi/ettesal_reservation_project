@@ -4,11 +4,11 @@ from reservation_app.serializers import (
     UserAdminSerializer,
     UserCustomerSerializer,
     SessionRequestSchedulerSerializer,
-    SessionRequestAdminSerializer, SessionRequestCustomerSerializer, UserSchedulerSerializer,
+    SessionRequestAdminSerializer, SessionRequestCustomerSerializer, UserSchedulerSerializer, ParticipantSerializer,
 )
 from . import permissions
 from rest_framework import permissions as base_permissions
-from .models import SessionRequest
+from .models import SessionRequest, Participant
 
 
 class UserViewSet(ModelViewSet):
@@ -87,3 +87,15 @@ class SessionRequestViewSet(ModelViewSet):
         if self.request.user.check_group('customer'):
             return SessionRequest.objects.filter(related_customer=self.request.user.id)
         return super().get_queryset()
+
+
+class ParticipantViewSet(ModelViewSet):
+    """
+    This ViewSet is for Participant model
+    """
+    serializer_class = ParticipantSerializer
+    queryset = Participant.objects.all()
+    permission_classes = [
+        base_permissions.IsAuthenticated,
+        permissions.IsAdminOrReadOnly,
+    ]

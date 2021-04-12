@@ -60,7 +60,7 @@ class UserCustomerSerializer(serializers.ModelSerializer):
 
 class ParticipantSerializer(serializers.ModelSerializer):
     """
-
+    This serializer is for Participant model
     """
 
     class Meta:
@@ -70,7 +70,7 @@ class ParticipantSerializer(serializers.ModelSerializer):
 
 class ParticipantAssigmentSerializer(serializers.ModelSerializer):
     """
-
+    This serializer is for ParticipantAssignment model
     """
     related_participants = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
