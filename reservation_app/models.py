@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager, Group
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core.mail import send_mail
 from django.db import models
@@ -70,6 +70,18 @@ class User(AbstractBaseUser, PermissionsMixin):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
+    def check_group(self, group_name):
+        if self.groups.filter(name=group_name).exists():
+            return True
+        else:
+            return False
+
+    def check_any_groups(self, groups_name):
+        if self.groups.filter(name__in=groups_name).exists():
+            return True
+        else:
+            return False
+
 
 class BaseModel(models.Model):
     """
@@ -92,7 +104,8 @@ class BaseModel(models.Model):
 
 class SessionRequest(BaseModel):
     nodes_count = models.PositiveIntegerField(verbose_name=_('nodes count'))
-    group_count = models.PositiveIntegerField(verbose_name=_('group count'))
+    groups_count = models.PositiveIntegerField(verbose_name=_('group count'))
+    unique_id = models.CharField(verbose_name=_('unique id'), max_length=5, unique=True)
     related_customer = models.ForeignKey(
         verbose_name=_('customer'),
         to=settings.AUTH_USER_MODEL,
@@ -101,7 +114,6 @@ class SessionRequest(BaseModel):
         related_query_name='%(class)s_customer'
     )
     is_accepted = models.BooleanField(verbose_name=_('is accepted'), default=False)
-    unique_id = models.CharField(verbose_name=_('unique id'), max_length=5, unique=True)
     start_date = models.DateTimeField(verbose_name=_('start date'))
     end_date = models.DateTimeField(verbose_name=_('end date'))
     related_participants = models.ManyToManyField(
