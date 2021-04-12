@@ -32,8 +32,8 @@ class IsAdminOrModifyOnly(permissions.BasePermission):
             request.method in SAFE_METHODS or
             request.user and
             request.user.is_superuser or
-            (request.user.check_group('scheduler') and request.method != 'POST') or
-            (request.user.check_group('customer') and request.method != 'POST')
+            (request.user.check_group('scheduler') and request.method not in ['POST', 'DELETE']) or
+            (request.user.check_group('customer') and request.method not in ['POST', 'DELETE'])
         )
 
 
