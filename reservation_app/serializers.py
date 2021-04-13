@@ -62,17 +62,18 @@ class ParticipantSerializer(serializers.ModelSerializer):
     """
     This serializer is for Participant model
     """
+    related_creator = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Participant
         fields = '__all__'
 
 
-class ParticipantAssigmentSerializer(serializers.ModelSerializer):
+class ParticipantAssignmentSerializer(serializers.ModelSerializer):
     """
     This serializer is for ParticipantAssignment model
     """
-    related_participants = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    related_creator = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = ParticipantAssignment
