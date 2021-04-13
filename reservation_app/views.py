@@ -5,10 +5,11 @@ from reservation_app.serializers import (
     UserCustomerSerializer,
     SessionRequestSchedulerSerializer,
     SessionRequestAdminSerializer, SessionRequestCustomerSerializer, UserSchedulerSerializer, ParticipantSerializer,
+    ParticipantAssignmentSerializer,
 )
 from . import permissions
 from rest_framework import permissions as base_permissions
-from .models import SessionRequest, Participant
+from .models import SessionRequest, Participant, ParticipantAssignment
 
 
 class UserViewSet(ModelViewSet):
@@ -99,3 +100,29 @@ class ParticipantViewSet(ModelViewSet):
         base_permissions.IsAuthenticated,
         permissions.IsAdminOrReadOnly,
     ]
+
+    def perform_create(self, serializer):
+        """
+        This method is for add related_creator to data for perform create session request
+        Here set to applicant user
+        """
+        serializer.save(related_creator=self.request.user)
+
+
+class ParticipantAssignmentViewSet(ModelViewSet):
+    """
+    This ViewSet is for ParticipantAssignment model
+    """
+    serializer_class = ParticipantAssignmentSerializer
+    queryset = ParticipantAssignment.objects.all()
+    permission_classes = [
+        base_permissions.IsAuthenticated,
+        permissions.IsAdminOrSchedulerViewer,
+    ]
+
+    def perform_create(self, serializer):
+        """
+        This method is for add related_creator to data for perform create session request
+        Here set to applicant user
+        """
+        serializer.save(related_creator=self.request.user)
