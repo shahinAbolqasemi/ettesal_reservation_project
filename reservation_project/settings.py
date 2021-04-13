@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'reservation_app.apps.ReservationAppConfig',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
